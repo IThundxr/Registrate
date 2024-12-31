@@ -4,15 +4,18 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tterrag.registrate.AbstractRegistrate;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.common.conditions.ICondition;
@@ -37,11 +40,17 @@ public class RegistrateAdvancementProvider implements RegistrateProvider, Consum
     private final PackOutput packOutput;
     private final CompletableFuture<HolderLookup.Provider> registriesLookup;
     private final List<CompletableFuture<?>> advancementsToSave = Lists.newArrayList();
+    @Getter
+    private HolderLookup.Provider provider;
 
     public RegistrateAdvancementProvider(AbstractRegistrate<?> owner, PackOutput packOutputIn, CompletableFuture<HolderLookup.Provider> registriesLookupIn) {
         this.owner = owner;
         this.packOutput = packOutputIn;
         this.registriesLookup = registriesLookupIn;
+    }
+
+    public <T> Holder<T> resolve(ResourceKey<T> key) {
+        return provider.lookupOrThrow(key.registryKey()).getOrThrow(key);
     }
 
     @Override
@@ -63,6 +72,7 @@ public class RegistrateAdvancementProvider implements RegistrateProvider, Consum
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
         return registriesLookup.thenCompose(lookup -> {
+            this.provider = lookup;
             advancementsToSave.clear();
 
             try {

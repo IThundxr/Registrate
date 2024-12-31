@@ -10,8 +10,11 @@ import com.tterrag.registrate.providers.RegistrateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
+import lombok.Getter;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.WritableRegistry;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -69,9 +72,20 @@ public class RegistrateLootTableProvider extends LootTableProvider implements Re
     private final Multimap<LootContextParamSet, Consumer<BiConsumer<ResourceKey<LootTable>, LootTable.Builder>>> lootActions = HashMultimap.create();
     private final Set<RegistrateLootTables> currentLootCreators = new HashSet<>();
 
+    private CompletableFuture<HolderLookup.Provider> provider;
+
     public RegistrateLootTableProvider(AbstractRegistrate<?> parent, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider) {
         super(packOutput, Set.of(), VanillaLootTableProvider.create(packOutput, provider).getTables(), provider);
         this.parent = parent;
+        this.provider = provider;
+    }
+
+    public HolderLookup.Provider getProvider(){
+        return provider.getNow(null);
+    }
+
+    public <T> Holder<T> resolve(ResourceKey<T> key) {
+        return getProvider().lookupOrThrow(key.registryKey()).getOrThrow(key);
     }
 
     @Override
