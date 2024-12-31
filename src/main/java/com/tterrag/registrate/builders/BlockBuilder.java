@@ -399,8 +399,7 @@ public class BlockBuilder<T extends Block, P> extends AbstractBuilder<Block, T, 
         OneTimeEventReceiver.addModListener(getOwner(), RegisterClientExtensionsEvent.class, e -> {
             if (this.clientExtensionFunc != null) {
                 NonNullSupplier<Supplier<IClientBlockExtensions>> clientExtension = this.clientExtensionFunc.apply(getEntry());
-                if (clientExtension != null)
-                    e.registerBlock(clientExtension.get().get(), getEntry());
+                e.registerBlock(clientExtension.get().get(), getEntry());
             }
         });
     }
