@@ -387,6 +387,7 @@ public class BlockBuilder<T extends Block, P> extends AbstractBuilder<Block, T, 
      *            The client extension to register for this block
      * @return this {@link BlockBuilder}
      */
+    @Deprecated(forRemoval = true)
     public BlockBuilder<T, P> clientExtension(Function<T, NonNullSupplier<Supplier<IClientBlockExtensions>>> clientExtension) {
         if (this.clientExtensionFunc == null) {
             RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::registerClientExtension);

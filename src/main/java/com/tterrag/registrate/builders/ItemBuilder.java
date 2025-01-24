@@ -307,6 +307,7 @@ public class ItemBuilder<T extends Item, P> extends AbstractBuilder<Item, T, P, 
         return this;
     }
 
+    @Deprecated(forRemoval = true)
     public ItemBuilder<T, P> clientExtension(Function<T, NonNullSupplier<Supplier<IClientItemExtensions>>> clientExtension) {
         if (this.clientExtensionFunc == null) {
             RegistrateDistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> this::registerClientExtension);
