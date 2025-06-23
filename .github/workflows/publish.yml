@@ -1,0 +1,10 @@
+name: Publish to Maven
+on: workflow_dispatch
+
+jobs:
+  build:
+    uses: ithundxr/workflows/.github/workflows/java-build.yml@main
+    with:
+      java-version: 17
+    secrets:
+      maven-token: ${{ secrets.MAVEN_TOKEN }}
