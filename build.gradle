@@ -182,7 +182,7 @@ publishing {
             maven {
                 url = "https://maven.ithundxr.dev/mirror"
                 credentials {
-                    username = "registrate-github"
+                    username = "registrate-fork-github"
                     password = mavenToken
                 }
             }
