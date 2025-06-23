@@ -176,6 +176,17 @@ publishing {
         if (project.hasProperty('mavendir')) {
             maven { url mavendir }
         }
+        
+        def mavenToken = System.getenv("MAVEN_TOKEN")
+        if (mavenToken != null && mavenToken.isNotEmpty()) {
+            maven {
+                url = "https://maven.ithundxr.dev/mirror"
+                credentials {
+                    username = "registrate-github"
+                    password = mavenToken
+                }
+            }
+        }
     }
 }
 
