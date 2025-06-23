@@ -29,7 +29,7 @@ apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remappe
 boolean dev = System.getenv('RELEASE') == null || System.getenv('RELEASE').equals('false')
 System.out.println(JavaVersion.current())
 
-version = "MC${minecraft_version}-${version}"
+version = "MC${minecraft_version}-${mod_version}"
 group = "com.tterrag.registrate"
 archivesBaseName = "Registrate"
 
