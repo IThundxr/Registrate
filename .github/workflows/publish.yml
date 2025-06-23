@@ -6,5 +6,6 @@ jobs:
     uses: ithundxr/workflows/.github/workflows/java-build.yml@main
     with:
       java-version: 17
+      publish-to-maven: true
     secrets:
       maven-token: ${{ secrets.MAVEN_TOKEN }}
