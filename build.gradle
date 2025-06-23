@@ -176,9 +176,9 @@ publishing {
         if (project.hasProperty('mavendir')) {
             maven { url mavendir }
         }
-        
+
         def mavenToken = System.getenv("MAVEN_TOKEN")
-        if (mavenToken != null && mavenToken.isNotEmpty()) {
+        if (mavenToken != null && !mavenToken.isEmpty()) {
             maven {
                 url = "https://maven.ithundxr.dev/mirror"
                 credentials {
